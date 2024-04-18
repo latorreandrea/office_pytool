@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% set active_page = "condividi" %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+    <!-- Overlay per evitare che l' user clicchi altre funzioni mentre è eseguito lo script -->
+    <div id="overlay" class="overlay-off justify-content-center">
+        <div id="textoverlay" class="text-center">
+            <h1>In lavorazione</h1>
+            <span>       
+                <div class="spinner-border text-center" role="status">            
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </span> 
+        </div>
+    </div>
+        {% if alert %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-warning text-center" role="alert">
+                    {{ alert }}
+                </div>
+            </div>
+        </div>
+        {% elif success %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success text-center" role="alert">
+                    {{ success }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row justify-content-center text-center mt-3">
+            <div class="col-4">    
+                <h2> Scrivi l'SQL per condividere i risultati della tua vista come file CSV con Plenitude </h2>
+            </div> 
+        </div>
+
+        {% for message in get_flashed_messages() %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-secondary" role="alert">
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} 
+        <div class="row justify-content-center">
+            <div class="col-6">    
+                <form action="{{ url_for('share_page_work') }}" class="text-wrap" method="POST">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" >Inserisci il nome che vuoi dare al file</span>
+                        <input type="text" class="form-control" placeholder="inserisci nome file csv" aria-label="file_name" aria-describedby="file_name" id="file_name" name="file_name">
+                    </div>
+                    <br>
+                        <label for="slq" class="form-label">Scrivi la tua query:</label>                    
+                        <div class="input-group mb-3 text-wrap">  
+                            <textarea placeholder="SQL" aria-label="slq" aria-describedby="sql" id="sql" name="sql" cols="20" rows="8" class="form-control text-wrap">                                
+                            </textarea>
+                        </div>
+                    <br>
+
+                    <button type="submit" class="btn btn-primary" onclick="on()">Condividi dati della vista</button>
+                    <a href="{{ url_for('share_page') }}" class="btn btn-light" data-toggle="tooltip" data-placement="bottom" title="Indica la tabella di BigQuery che vuoi condividere">Seleziona tabella</a>
+                </form>
+            </div>  
+        </div>
+    {% endif %}
+
+    <script>     
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+          }     
+    </script>
+    
+   
+{% endblock %}

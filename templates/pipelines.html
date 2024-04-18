@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% set active_page = "pipelines" %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+    <!-- Overlay per evitare che l user clicchi altre funzioni mentre è eseguito lo script -->
+    <div id="overlay" class="overlay-off justify-content-center">
+        <div id="textoverlay" class="text-center">
+            <h1>In lavorazione</h1>
+            <span>       
+                <div class="spinner-border text-center" role="status">            
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </span> 
+        </div>
+    </div>
+        {% if alert %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-warning text-center" role="alert">
+                    {{ alert }}
+                </div>
+            </div>
+        </div>
+        {% elif success %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success text-center" role="alert">
+                    {{ success }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% for message in get_flashed_messages() %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-secondary" role="alert">
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} 
+        
+        <div class="row justify-content-center mt-3">
+            <div class="col-4">    
+                <h2> Lista delle Pipelines </h2>
+            </div> 
+        </div>
+
+        <div class="row">        
+            {% for pipeline in pipelines %}
+            <div class="col-6">            
+                <div class="card w-75 mt-2 mb-1">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pipeline.name }}</h5>
+                        <p class="card-text">Status della pipeline : <span class="badge bg-secondary">{{ pipeline.status }}</span></p>
+                        <a href="{{ url_for('pipeline_start', name=pipeline.name) }}" class="btn btn-primary" onclick="on()">Avvia</a> <a href="{{ url_for('pipeline_stop', name=pipeline.name) }}" class="btn btn-primary" onclick="on()">Ferma</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        
+        <div class="row justify-content-center mt-3">
+             
+        </div>
+    {% endif %}
+
+    <script>     
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+          }     
+    </script>
+    
+   
+{% endblock %}

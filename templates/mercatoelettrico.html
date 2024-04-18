@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% set active_page = "mercato" %}
+{% block content %}
+{% if current_user.is_authenticated %}
+<!-- Overlay per evitare che l user clicchi altre funzioni mentre è eseguito lo script -->
+<div id="overlay" class="overlay-off justify-content-center">
+    <div id="textoverlay" class="text-center">
+        <h1>In lavorazione</h1>
+        <span>       
+            <div class="spinner-border text-center" role="status">            
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </span> 
+    </div>
+</div>
+<div class="row justify-content-center mt-3">
+    <div class="col-4">    
+        <h2> Gestione Mercato Elettrico </h2>
+    </div> 
+</div>
+{% if alert %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-warning text-center" role="alert">
+                    {{ alert }}
+                </div>
+            </div>
+        </div>
+        {% elif success %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success text-center" role="alert">
+                    {{ success }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% for message in get_flashed_messages() %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-secondary" role="alert">
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} 
+<div class="mb-3 mt-3">
+    <label for="data" class="form-label">Ultima data d'analisi:</label>
+    <p name="data">{{ ultima_data }}</p>
+</div>
+<form action="" method="POST">
+    <div class="mb-3 mt-3">
+        <label for="inizio" class="form-label">Data d'inizio:</label>
+        <input type="date" class="form-control" id="inizio" placeholder="Inserisci data inizio analisi" name="inizio">
+    </div>
+    <div class="mb-3">
+        <label for="fine" class="form-label">Data di fine:</label>
+        <input type="date" class="form-control" id="fine" placeholder="Inserisci data fine analisi" name="fine">
+    </div>    
+    <button type="submit" class="btn btn-primary" onclick="on()">Submit</button>
+</form>
+
+<script>     
+    function on() {
+        document.getElementById("overlay").style.display = "block";
+      }     
+  </script>
+  {% endif %}
+{% endblock %}

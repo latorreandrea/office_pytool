@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% set active_page = "segnisbilanciamento" %}
+{% block content %}
+{% if current_user.is_authenticated %}
+<!-- Overlay per evitare che l user clicchi altre funzioni mentre è eseguito lo script -->
+<div id="overlay" class="overlay-off justify-content-center">
+    <div id="textoverlay">
+        <h1>In lavorazione</h1>
+        <span>        
+        <div class="spinner-border" role="status">            
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </span>
+    </div>
+</div>
+<div class="mb-3 mt-3">
+    <label for="data" class="form-label">Ultima data d'analisi:</label>
+    <p name="data">{{ ultima_data }}</p>
+</div>
+<form id="anno_mese_giorno" action="" method="POST">
+    <div class="form-row">
+        <div class="col-4">
+            <label for="anno" class="form-label">Seleziona anno:</label>
+            <select name="anno" id="anno" class="custom-select-lg" placeholder="Anno" required>
+                {% for anno in anni %}
+                <option value= "{{anno}}" SELECTED>{{ anno }}</option>"
+                {% endfor %}              
+            </select>
+        </div>
+        <div class="col-4">
+            <label for="mese" class="form-label">Seleziona mese:</label>
+            <select name="mese" id="mese" class="custom-select-lg" placeholder="Mese" required>
+                <option value="1">Gen</option>
+                <option value="2">Feb</option>
+                <option value="3">Mar</option>
+                <option value="4">Apr</option>
+                <option value="5">Mag</option>
+                <option value="6">Giu</option>
+                <option value="7">Lug</option>
+                <option value="8">Ago</option>
+                <option value="9">Set</option>
+                <option value="10">Ott</option>
+                <option value="11">Nov</option>
+                <option value="12">Dic</option>                        
+            </select>
+        </div>                
+        <div class="col-4">
+            <label for="giorno" class="form-label">Seleziona giorno:</label>            
+            <select name="giorno" id="giorno" class="custom-select-lg" placeholder="Giorno">                
+                {% for giorno in giorni %}
+                    {% if giorno == 0 %}
+                    <option value= "{{giorno}}" SELECTED>Scarica intero mese</option>"
+                    {% else %}
+                    <option value= "{{giorno}}" SELECTED>{{ giorno }}</option>"
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+        </div>                
+    </div>
+    <div class="form-row">
+        <button class="btn btn-primary" type="submit" onclick="on()">Submit</button> 
+    </div>
+</form>
+
+<script>     
+    function on() {
+        document.getElementById("overlay").style.display = "block";
+      }     
+  </script>
+  {% endif %}
+{% endblock %}

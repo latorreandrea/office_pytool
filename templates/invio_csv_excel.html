@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% set active_page = "invio_csv" %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+    <!-- Overlay per evitare che l user clicchi altre funzioni mentre è eseguito lo script -->
+    <div id="overlay" class="overlay-off justify-content-center">
+        <div id="textoverlay" class="text-center">
+            <h1>In lavorazione</h1>
+            <span>       
+                <div class="spinner-border text-center" role="status">            
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </span> 
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-4">    
+            <h2> Trasforma il tuo file CSV in una Tabella BigQuery </h2>
+        </div> 
+    </div>
+        {% if alert %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-warning text-center" role="alert">
+                    {{ alert }}
+                </div>
+            </div>
+        </div>
+        {% elif success %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success text-center" role="alert">
+                    {{ success }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% for message in get_flashed_messages() %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-secondary" role="alert">
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} 
+        <div class="row justify-content-center">
+            <div class="col-8">    
+                <form action="{{ url_for('upload_csv') }}" method="POST" enctype ="multipart/form-data">
+                    <div class="mb-3 mt-3">
+                        <label for="file" class="form-label">Invia il file da elaborare NON sono gestiti i file più grandi di 50 Mb:</label>
+                        <input type="file" class="form-control" id="file" name="file" multiple="multiple">
+                    </div>
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="separatore">Inserisci carattere separatore</span>
+                        <select class="form-select form-select" aria-label=".form-select-lg example" name="separatore">
+                            <option value=";" selected>;</option>
+                            <option value=",">,</option>                                                                                    
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="dataset" name="dataset">Inserisci Dataset esistente</span>
+                        <select class="form-select form-select" aria-label=".form-select-lg example" name="dataset">
+                            <option value="FATTURAZIONE">FATTURAZIONE</option>                                                        
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="table_name">Inserisci il nome della tabella che vuoi generare</span>
+                        <input type="text" class="form-control" placeholder="table_name (non utilizzare spazi e caratteri speciali)" aria-label="table_name" aria-describedby="table_name" id="table_name" name="table_name">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" onclick="on()">Carica file</button>
+                </form>
+            </div>  
+        </div>
+    {% endif %}
+
+    <script>     
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+          }     
+    </script>
+    
+   
+{% endblock %}

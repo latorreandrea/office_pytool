@@ -1,0 +1,97 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}  
+<!-- Overlay per evitare che l user clicchi altre funzioni mentre è eseguito lo script -->
+<div id="overlay" class="overlay-off justify-content-center">
+    <div id="textoverlay" class="text-center">
+        <h1>In lavorazione</h1>
+        <span>       
+            <div class="spinner-border text-center" role="status">            
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </span> 
+    </div>
+</div> 
+    <!-- Header-->
+    <header class="py-5">
+        <div class="container px-lg-5">
+            <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+                <div class="m-4 m-lg-5">
+                    <h1 class="display-5 fw-bold">Servizi ETL</h1>
+                    <br>
+                    <p class="fs-4">Benvenuto {{ nome }}</p>
+                    <p class="fs-4">Seleziona il processo che vuoi avviare</p>                        
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Page Content-->
+    <section class="pt-4">
+        <div class="container px-lg-5">
+            <!-- Page Features-->
+            <div class="row gx-lg-5 justify-content-center">
+                
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                            <h2 class="fs-4 fw-bold ">registazioni ACUSIM</h2>
+                            <p class="mb-0">Aggiorna tabelle flussi acusim su BQ</p>
+                            <br>
+                            <a class="btn btn-primary btn-lg" href="{{ url_for('upload_file') }}" onclick="on()">Clicca qui!</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                            <h2 class="fs-4 fw-bold ">Bonifici Domiciliati</h2>
+                            <p class="mb-0">Scarica File Bonifici Domiciliati</p>
+                            <br>
+                            <a class="btn btn-primary btn-lg" href="{{ url_for('download_bonifici_domiciliati') }}" onclick="on()">Clicca qui!</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                            <h2 class="fs-4 fw-bold ">BONDOM da Bonifici non imputati</h2>
+                            <p class="mb-0">scarica file Bondom dal file Bonifici non imputati</p>
+                            <br>
+                            <a class="btn btn-primary btn-lg" href="{{ url_for('upload_file') }}" onclick="on()">Clicca qui!</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-danger bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-box-arrow-left"></i></div>
+                            <h2 class="fs-4 fw-bold">Log Out</h2>
+                            <p class="mb-0">al termine delle operazioni disconettiti dal sistema</p>
+                            <br>
+                            <a class="btn btn-danger btn-lg" href="{{ url_for('logout') }}"  onclick="on()">Clicca qui!</a>
+                        </div>
+                    </div>
+                </div>                                    
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <script>     
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+          }     
+    </script> 
+        
+{% endblock %}

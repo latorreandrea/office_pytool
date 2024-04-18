@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>EniPleni ELT</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" 
+    href="{{ url_for('static', filename='favicon.ico') }}"/>
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">       
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      type="text/css"
+    />
+    
+        
+  </head>
+  <body>
+   <!-- Responsive navbar-->
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container px-lg-5">
+        <a class="navbar-brand" href="{{ url_for('hello') }}">EniPleni ETL</a>
+        <span>
+        {% if current_user.is_authenticated %}
+         <sub class="text-white">sei connesso come {{ nome }}</sub>
+         {% else %}
+         <sub class="text-danger">effettua login</sub>
+        {% endif %}
+        </span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link {{ 'active' if active_page == 'upload' else '' }}" href="{{ url_for('upload_file') }}">Invia File</a></li>                
+            </ul>
+        </div>
+      </div>
+    </nav>  
+
+  <!-- Main Content -->
+  <br> 
+    <div class="container main-content mb-5"> 
+          
+        {% block content %}
+        {% endblock %}
+      
+    </div>
+    
+
+
+    <!-- Footer-->
+      
+        <footer class="py-5 bg-dark align-items-end footer mt-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-6"><p class="m-0 text-center text-white">Servizi EniPleni</p></div>
+                <div class="col-6"><p class="m-0 text-center text-white">Link utili</p></div>
+              </div>
+            </div>
+        </footer>
+      
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='js/script.js') }}"/>
+      </body>
+</html>

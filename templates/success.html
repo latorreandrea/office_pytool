@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <h1 class="text-center">Operazione terminata!</h1>
+</div>
+<div class="row justify-content-center">
+    <div class="col">
+    {% for job in jobs %}
+    <p class="text-center">
+        file: {{ job }}
+    </p>
+    {% endfor %}
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="btn-group text-center" role="group" aria-label="Basic example">
+    <a class="btn btn-primary btn-lg" href="https://console.cloud.google.com/bigquery?project=pltpg-mubi">Vai A Bigquery</a>
+    <a class="btn btn-light btn-lg" href="{{ url_for('hello') }}">Torna alla home</a>
+    </div>
+</div>
+{% endblock %}

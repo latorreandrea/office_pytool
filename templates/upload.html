@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% set active_page = "upload" %}
+{% block content %}
+{% if current_user.is_authenticated %}
+<!-- Overlay per evitare che l user clicchi altre funzioni mentre è eseguito lo script -->
+<div id="overlay" class="overlay-off justify-content-center">
+    <div id="textoverlay" class="text-center">
+        <h1>In lavorazione</h1>
+        <span>       
+            <div class="spinner-border text-center" role="status">            
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </span> 
+    </div>
+</div>
+{% if alert %}
+<div class="row">
+    <div class="col">
+        <div class="alert alert-warning text-center" role="alert">
+            {{ alert }}
+        </div>
+    </div>
+</div>
+{% elif success %}
+<div class="row">
+    <div class="col">
+        <div class="alert alert-success text-center" role="alert">
+            {{ success }}
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="row justify-content-center text-center mt-3">
+    <div class="col-4">    
+        <h2> Avvia Elaborazione </h2>
+    </div> 
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <form action="{{ url_for('uploader_file') }}" method="POST" enctype ="multipart/form-data">
+            <div class="mb-3 mt-3">
+                <label for="file" class="form-label">Invia il file da elaborare:</label>
+                <input type="file" class="form-control" id="file"  name="file" multiple="multiple">
+            </div>
+            <br> 
+                 
+                <button type="submit" class="btn btn-primary" onclick="on()">Submit</button>
+            
+             
+            
+        </form>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+</div>
+
+<!-- sezione avvia script -->
+
+<div class="row justify-content-center m-5 p-5">
+
+    {% if submit %}
+    <div class="col-12 my-1 text-center">
+        <div class="btn-group-vertical">
+           <p> Utilizza il file per generare:</p>
+        </div>
+    </div>
+
+    <div class="col-3 m-1">
+        <div class="btn-group-vertical">
+            <a class="btn btn-primary btn-lg" href="{{ url_for('acusim_15') }}" onclick="on()">Flusso 15 ACUSIM</a>
+        </div>
+    </div>
+
+    <div class="col-3 m-1">
+        <div class="btn-group-vertical">
+            <a class="btn btn-primary btn-lg" href="{{ url_for('bonificinonimputati') }}" onclick="on()">Bondom</a>
+        </div>
+    </div>
+
+    {% endif %}
+    
+
+</div>
+
+<script>     
+    function on() {
+        document.getElementById("overlay").style.display = "block";
+      }     
+</script>
+  {% endif %}
+{% endblock %}
